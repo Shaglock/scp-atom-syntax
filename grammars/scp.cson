@@ -1,0 +1,155 @@
+bundleUUID: "00ef041f-f26d-4784-a7de-9bc82ae09d36"
+fileTypes: [
+  "scs",
+  "scsi"
+]
+foldingStartMarker: "/\\*\\*|\\{\\s*$"
+foldingStopMarker: "\\*\\*/|^\\s*\\}"
+name: "SCP"
+patterns: [
+  {
+    include: "#keywords"
+  }
+  {
+    include: "#imports"
+  }
+  {
+    include: "#scp_ind"
+  }
+  {
+    include: "#comments"
+  }
+  {
+    include: "#block-comments"
+  }
+  {
+    include: "#strings"
+  }
+  {
+    include: "#char-literal"
+  }
+  {
+    include: "#scp-symbol"
+  }
+  {
+    include: "#rrel_f_a"
+  }
+  {
+    include: "#rrel_i"
+  }
+  {
+    include: "#function"
+  }
+]
+repository:
+  "block-comments":
+    begin: "/\\*"
+    end: "\\*/"
+    name: "comment.block.scp"
+    patterns: [
+      {
+        include: "#block-comments"
+      }
+      {
+        match: '''
+          (?x)
+          			(?! /\\*)
+          			(?! \\*/)
+
+        '''
+      }
+    ]
+  "char-literal":
+    match: "'\\\\?.'"
+    name: "constant.character.literal.scp"
+  comments:
+    patterns: [
+      {
+        captures:
+          "1":
+            name: "punctuation.definition.comment.scp"
+        match: "(//).*$\\n?"
+        name: "comment.line.double-slash.scp"
+      }
+      {
+        captures:
+          "0":
+            name: "punctuation.definition.comment.scp"
+        match: "/\\*\\*/"
+        name: "comment.block.empty.scp"
+      }
+      {
+        begin: "(^\\s*)?/\\*\\*"
+        captures:
+          "0":
+            name: "punctuation.definition.comment.scp"
+        end: "\\*/(\\s*\\n)?"
+        name: "comment.block.documentation.scp"
+        patterns: [
+          {
+            match: "(@\\w+\\s)"
+            name: "keyword.other.documentation.scpdoc.scp"
+          }
+          {
+            match: "\\{@link\\s+[^\\}]*\\}"
+            name: "keyword.other.documentation.scpdoc.link.scp"
+          }
+        ]
+      }
+    ]
+  imports:
+    begin: "\\b(scp_program|scp_procedure|agent_scp_program|active_agent_scp_program|rrel_params:|rrel_operators:|rrel_init:)\\s+"
+    beginCaptures:
+      "1":
+        name: "keyword.other.import.scp"
+    end: "(?<=[ ])"
+    name: "meta.import.scp"
+  function:
+    begin: "\\b(nrel_goto(\\s*):|nrel_then(\\s*):|nrel_else(\\s*):|genEl(\\s*);;|genElStr3(\\s*);;|genElStr5(\\s*);;|scp_operator_executable_after_one_of_previous(\\s*);;|scp_operator_executable_after_all_previous(\\s*);;|sys_gen(\\s*);;|eraseEl(\\s*);;|eraseElStr3(\\s*);;|eraseElStr5(\\s*);;|eraseSetStr3(\\s*);;|eraseSetStr5(\\s*);;|searchElStr3(\\s*);;|searchElStr5(\\s*);;|searchSetStr3(\\s*);;|searchSetStr5(\\s*);;|sys_search(\\s*);;|ifType(\\s*);;|ifVarAssign(\\s*);;|ifFormCont(\\s*);;|ifCoin(\\s*);;|ifEq(\\s*);;|ifGr(\\s*);;|contAdd(\\s*);;|contSub(\\s*);;|contMult(\\s*);;|contDiv(\\s*);;|contPow(\\s*);;|contLn(\\s*);;|contSin(\\s*);;|contCos(\\s*);;|contTg(\\s*);;|contASin(\\s*);;|contACos(\\s*);;|contATg(\\s*);;|contAssign(\\s*);;|contErase(\\s*);;|sys_wait(\\s*);;|call(\\s*);;|waitReturn(\\s*);;|waitReturnSet(\\s*);;|varAssign(\\s*);;|varErase(\\s*);;|print(\\s*);;|printNl(\\s*);;|printEl(\\s*);;|syncronize(\\s*);;|stringToUpperCase(\\s*);;|stringToLowerCase(\\s*);;|stringReplace(\\s*);;|stringEndsWith(\\s*);;|stringStartsWith(\\s*);;|stringSlice(\\s*);;|stringSub(\\s*);;|stringLen(\\s*);;|stringSplit(\\s*);;|stringIfGr(\\s*);;|stringIfEq(\\s*);;|contConcat(\\s*);;)\\s+"
+    beginCaptures:
+      "1":
+        name: "entity.other.attribute-name.scp"
+    end: "(?<=[ ])"
+    name: "meta.import.scp"
+  rrel_f_a:
+    begin: "\\b(rrel_fixed(\\s*):|rrel_assign(\\s*):|rrel_in(\\s*):|rrel_out(\\s*):)\\s+"
+    beginCaptures:
+      "1":
+        name: "storage.type.primitive.scp"
+    end: "(?<=[ ])"
+    name: "meta.import.scp"
+  rrel_i:
+    begin: "\\b(rrel_(\\d+\\s*):|rrel_set_([1-5]\\s*):)\\s+"
+    beginCaptures:
+      "1":
+        name: "storage.type.primitive.scp"
+    end: "(?<=[ ])"
+    name: "meta.import.scp"
+  scp_ind:
+    begin: "\\b(rrel_scp_const(\\s*):|rrel_scp_var(\\s*):|nrel_scp_var_value(\\s*):|rrel_const(\\s*):|rrel_var(\\s*):|rrel_node(\\s*):|rrel_arc(\\s*):|rrel_link(\\s*):|rrel_common(\\s*):|rrel_access(\\s*):|rrel_pos(\\s*):|rrel_neg(\\s*):|rrel_fuz(\\s*):|rrel_temp(\\s*):|rrel_perm(\\s*):|rrel_pos_const_perm(\\s*):|rrel_set(\\s*):|rrel_erase(\\s*):)\\s+"
+    beginCaptures:
+      "1":
+        name: "variable.parameter.scp"
+    end: "(?<=[ ])"
+    name: "meta.import.scp"
+  keywords:
+    patterns: [
+      {
+        match: "\\b(return)\\b"
+        name: "keyword.variable.parameter.scp"
+      }
+    ]
+  strings:
+    patterns: [
+      {
+        begin: "\"\"\""
+        end: "\"\"\""
+        name: "string.quoted.triple.scp"
+      }
+      {
+        begin: "(?<!\\\\)\""
+        end: "\""
+        name: "string.quoted.double.scp"
+      }
+    ]
+scopeName: "source.scp"
