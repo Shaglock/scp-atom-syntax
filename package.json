@@ -1,9 +1,8 @@
 {
   "name": "scp-atom-syntax",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Syntax for SCP language which is used in OSTIS",
-  "keywords": [
-  ],
+  "keywords": [],
   "repository": "https://github.com/Shaglock/scp-atom-syntax",
   "license": "MIT",
   "engines": {
